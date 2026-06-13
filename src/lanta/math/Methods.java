@@ -7,20 +7,22 @@ import java.util.Map;
 import java.util.function.Function;
 
 public final class Methods {
-    public Expression<?> Sum(Expression<?> expression, int from, int to){
-        Expression<?> expr;
+    public static <T extends Number> Expression<T> Sum(Expression<T> expression, Function<Number, T> converter, int from, int to){
+        Expression<T> expr = converter::apply;
         for (int i = from; i < to; i++) {
-            //expr = ;
+            Expression<T> finalExpr = expr;
+            expr = (x) -> converter.apply(finalExpr.eval(x).doubleValue() + expression.eval(x).doubleValue());
         }
+        return expr;
     }
 
-    public <T extends Number> T Sum(Number[] values, Expression<T> expression, Function<Double, T> converter){
+    public static <T extends Number> T Sum(Number[] values, Expression<T> expression, Function<Number, T> converter){
         double sum = 0;
         for(Number value : values) sum += expression.eval(value).doubleValue();
         return converter.apply(sum);
     }
 
-    public <T extends Number> T Sum(Map.Entry<Number, Number>[] values, BivariateExpression<T> expression, Function<Double, T> converter){
+    public static <T extends Number> T Sum(Map.Entry<Number, Number>[] values, BivariateExpression<T> expression, Function<Number, T> converter){
         double sum = 0;
         for(Map.Entry<Number, Number> value : values) sum += expression.eval(value.getKey(), value.getValue()).doubleValue();
         return converter.apply(sum);
