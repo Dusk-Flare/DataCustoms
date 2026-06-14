@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 public final class Methods {
+<<<<<<< Updated upstream
     public static <T extends Number> Expression<T> Sum(Expression<T> expression, Function<Number, T> converter, int from, int to){
         Expression<T> expr = converter::apply;
         for (int i = from; i < to; i++) {
