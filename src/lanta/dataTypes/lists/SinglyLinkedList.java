@@ -51,6 +51,10 @@ public class SinglyLinkedList<T> extends AbstractCollection<T> {
 
     public T poll(){
         SinglyNode<T> prev = headNode;
+        if(isEmpty() || headNode.next() == null){
+            headNode = null;
+            return prev.value();
+        }
         for(SinglyNode<T> cn = headNode; cn != null; cn = cn.next()){
             if(cn.next() == null){
                 prev.next(null);

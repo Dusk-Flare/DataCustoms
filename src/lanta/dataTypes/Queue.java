@@ -9,7 +9,7 @@ public class Queue<T> {
     }
 
     public boolean isEmpty(){
-        return size() == 0;
+        return queue.isEmpty();
     }
 
     public int size(){

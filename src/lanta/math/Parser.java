@@ -53,6 +53,11 @@ public final class Parser {
         }
     }
 
+    public static <T extends Number> T extractNumber(int number, int initialPlace, int finalPlace, Function<Number, T> parser){
+        number /= (int) pow(10, initialPlace);
+        return parser.apply(number % pow(10, abs(initialPlace - finalPlace)));
+    }
+
     public static <T extends Number> Matrix<T> toMatrix(T[][] base, Function<Number, T> converter) {
         T[][] matrixArray = Arrays.copyOf(base, 5);
         for (int i = 0; i < matrixArray.length; i++) {
@@ -222,7 +227,7 @@ public final class Parser {
                 case "-" -> a - b;
                 case "*" -> a * b;
                 case "/" -> a / b;
-                case "^" -> Math.pow(a, b);
+                case "^" -> pow(a, b);
                 default  -> 0.0;
             };
         };

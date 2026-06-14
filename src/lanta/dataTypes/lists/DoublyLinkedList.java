@@ -45,9 +45,33 @@ public class DoublyLinkedList<T> extends SinglyLinkedList<T> {
     }
 
     @Override
+    public T pop(){
+        if(headNode == null) return null;
+        T element = headNode.value();
+        headNode = headNode.next();
+        return element;
+    }
+
+    @Override
     public T front(){
         if (leadNode == null) return null;
         return leadNode.value();
+    }
+
+    @Override
+    public T poll(){
+        DoublyNode<T> prev = headNode;
+        if(isEmpty() || headNode.next() == null){
+            headNode = null;
+            return prev.value();
+        }
+        for(DoublyNode<T> cn = headNode; cn != null; cn = cn.next()){
+            if(cn.next() == null){
+                prev.next(null);
+                return cn.value();
+            } prev = cn;
+        }
+        return null;
     }
 
     public DoublyLinkedList<T> reverse(){
@@ -112,13 +136,13 @@ public class DoublyLinkedList<T> extends SinglyLinkedList<T> {
 
     public boolean append(T data){
         DoublyNode<T> newNode = new DoublyNode<>(data);
-        if(leadNode == null && headNode != null) leadNode = headNode.next();
         if(headNode == null) headNode = newNode;
         else {
             headNode.previous(newNode);
             newNode.next(headNode);
             headNode = headNode.previous();
         }
+        if(leadNode == null) leadNode = headNode.next();
         return false;
     }
 

@@ -14,6 +14,15 @@ public final class Methods {
             expr = (x) -> converter.apply(finalExpr.eval(x).doubleValue() + expression.eval(x).doubleValue());
         }
         return expr;
+=======
+    public <T extends Number> Expression<T> Sum(Expression<T> expression, Function<Double, T> converter, int from, int to){
+        Expression<T> result = expression;
+        for (int i = from; i < to; i++) {
+            Expression<?> temp = result;
+            result = (x) -> converter.apply(temp.eval(x).doubleValue() + expression.eval(x).doubleValue());
+        }
+        return result;
+>>>>>>> Stashed changes
     }
 
     public static <T extends Number> T Sum(Number[] values, Expression<T> expression, Function<Number, T> converter){

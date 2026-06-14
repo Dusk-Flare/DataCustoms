@@ -9,7 +9,7 @@ public class Stack<T> {
     }
 
     public boolean isEmpty(){
-        return size() == 0;
+        return stack.isEmpty();
     }
 
     public int size(){
