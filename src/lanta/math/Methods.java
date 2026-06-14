@@ -7,15 +7,6 @@ import java.util.Map;
 import java.util.function.Function;
 
 public final class Methods {
-<<<<<<< Updated upstream
-    public static <T extends Number> Expression<T> Sum(Expression<T> expression, Function<Number, T> converter, int from, int to){
-        Expression<T> expr = converter::apply;
-        for (int i = from; i < to; i++) {
-            Expression<T> finalExpr = expr;
-            expr = (x) -> converter.apply(finalExpr.eval(x).doubleValue() + expression.eval(x).doubleValue());
-        }
-        return expr;
-=======
     public <T extends Number> Expression<T> Sum(Expression<T> expression, Function<Double, T> converter, int from, int to){
         Expression<T> result = expression;
         for (int i = from; i < to; i++) {
@@ -23,7 +14,6 @@ public final class Methods {
             result = (x) -> converter.apply(temp.eval(x).doubleValue() + expression.eval(x).doubleValue());
         }
         return result;
->>>>>>> Stashed changes
     }
 
     public static <T extends Number> T Sum(Number[] values, Expression<T> expression, Function<Number, T> converter){
