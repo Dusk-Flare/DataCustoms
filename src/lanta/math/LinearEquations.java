@@ -7,7 +7,6 @@ public class LinearEquations {
         if (matrix.columns != results.columns || results.rows != 1) throw new IllegalArgumentException("Results size must match matrix in rows, and only have 1 column");
         int size = matrix.rows;
         Matrix<T> values = new Matrix<>(initialValues);
-        System.out.println(values+"\n\n"+initialValues);
         while (true) {
             Matrix<T> nextValues = updateValues(matrix, results, values, size);
             boolean isFinished = true;
