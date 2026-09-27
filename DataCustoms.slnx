@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DataCustoms/DataCustoms.csproj" />
+  <Project Path="TestCustoms/TestCustoms.csproj" Id="a2af5275-2350-45a6-a4e8-716c503f5fd0" />
+</Solution>
