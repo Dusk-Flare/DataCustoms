@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace DataCustoms.Math
 {    
-    public static partial class Parser
+    public static class Parser
     {
         public static bool TryParseNumber<T>(string number, out T value) where T : INumber<T>
         {
