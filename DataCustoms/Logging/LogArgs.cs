@@ -8,10 +8,10 @@ namespace DataCustoms.Logging
         {
             StringBuilder builder = new();
             builder.Append($"[{Level,-10} : {Source.Source,10}]");
+            string prefix = $"\n[At {callerName,-7} : {callerClass,10}]: ";
             foreach (object dataObj in Data)
             {
                 object data = dataObj;
-                string prefix = $"\n[At {callerName,-7} : {callerClass,10}]: ";
                 if (data is Exception ex) data = ex.StackTrace ?? string.Empty;
                 string indent = "\n".PadRight(prefix.Length);
                 string info = data?.ToString() ?? string.Empty;

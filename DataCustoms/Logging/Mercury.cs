@@ -7,6 +7,8 @@ namespace DataCustoms.Logging
         public string Source { get; init; }
         public bool IsDiscrete { get; init; }
 
+        internal Mercury() : this("DataCustoms", true) { }
+
         public Mercury(string owner, bool discrete)
         {
             Source = owner;

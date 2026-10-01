@@ -2,17 +2,21 @@
 {
     public class LogWriter : IDisposable
     {
+        public string DebugFile;
+        public string LogFile;
         private static LogWriter _instance = new("logOutput");
         public static LogWriter Main
         {
             get => _instance;
             set => _instance = value;
         }
-        private bool disposedValue;
-        private readonly FileStream logOutput;
-        private readonly FileStream debugOutput;
-        private readonly StreamWriter logWriter;
-        private readonly StreamWriter debugWriter;
+        private static readonly Mercury _logger = new();
+        internal static Mercury Logger => _logger;
+        private bool _disposedValue;
+        private readonly FileStream _logOutput;
+        private readonly FileStream _debugOutput;
+        private readonly StreamWriter _logWriter;
+        private readonly StreamWriter _debugWriter;
         public LogWriter(string outputFileName)
         {
             string path = Directory.GetCurrentDirectory();
@@ -20,15 +24,15 @@
             string outputDir = Path.Combine(path, "output");
             Directory.CreateDirectory(outputDir);
 
-            string filepath = Path.Combine(outputDir, $"{outputFileName}.log");
-            logOutput = File.Create(filepath);
-            logWriter = new StreamWriter(logOutput) { AutoFlush = true };
-            logWriter.WriteLine("[Initialized LogWriter]");
+            LogFile = Path.Combine(outputDir, $"{outputFileName}.log");
+            _logOutput = File.Create(LogFile);
+            _logWriter = new StreamWriter(_logOutput) { AutoFlush = true };
+            _logWriter.WriteLine("[Initialized LogWriter]");
 
-            string debugpath = Path.Combine(outputDir, "debug.log");
-            debugOutput = File.Create(debugpath);
-            debugWriter = new StreamWriter(debugOutput) { AutoFlush = true };
-            debugWriter.WriteLine("[Initialized DebugWriter]");
+            DebugFile = Path.Combine(outputDir, "debug.log");
+            _debugOutput = File.Create(DebugFile);
+            _debugWriter = new StreamWriter(_debugOutput) { AutoFlush = true };
+            _debugWriter.WriteLine("[Initialized DebugWriter]");
         }
         public void RegisterLogSource(ILogger logSource) => logSource.LogEvent += OnLog;
 
@@ -37,14 +41,14 @@
             bool written = false;
             try
             {
-                debugWriter.WriteLine($"[From : {source.Source,10}]");
-                debugWriter.WriteLine($"[At   : {DateTime.Now,10}]");
-                debugWriter.WriteLine(args.ToString());
-                debugWriter.WriteLine();
+                _debugWriter.WriteLine($"[From : {source.Source,10}]");
+                _debugWriter.WriteLine($"[At   : {DateTime.Now,10}]");
+                _debugWriter.WriteLine(args.ToString());
+                _debugWriter.WriteLine();
                 if (args.Level != LogLevel.Debug)
                 {
-                    logWriter.WriteLine(args.ToString());
-                    logWriter.WriteLine();
+                    _logWriter.WriteLine(args.ToString());
+                    _logWriter.WriteLine();
                     if (!source.IsDiscrete)
                     {
                         if (args.Level == LogLevel.Error) Console.ForegroundColor = ConsoleColor.Red;
@@ -67,13 +71,13 @@
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposedValue)
+            if (!_disposedValue)
             {
-                logOutput.Dispose();
-                logWriter.Dispose();
-                debugOutput.Dispose();
-                debugWriter.Dispose();
-                disposedValue = true;
+                _logOutput.Dispose();
+                _logWriter.Dispose();
+                _debugOutput.Dispose();
+                _debugWriter.Dispose();
+                _disposedValue = true;
             }
         }
 
